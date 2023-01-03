@@ -1,23 +1,176 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./images/logo.svg";
+// import './index.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <body class="page">
+        <header class="header">
+          <img
+            class="header__logo"
+            src={logo}
+            alt="logo"
+          />
+        </header>
+        <main class="main">
+          <section class="profile">
+            <div class="profile__avatar">
+              <img
+                src="<%= require('./images/jacques-cousteau.png')%>"
+                alt="avatar"
+                class="profile__avatar-img"
+              />
+              <button class="profile__change-avatar-button"></button>
+            </div>
+            <div class="profile__description">
+              <div class="profile__wrapper">
+                <h1 class="profile__title"></h1>
+                <button type="button" class="profile__button-edit"></button>
+              </div>
+              <p class="profile__subtitle"></p>
+            </div>
+            <button type="button" class="profile__button-add"></button>
+          </section>
+          <section class="gallery"></section>
+        </main>
+        <footer class="footer">
+          <p class="footer__copyright">&copy; 2022 Around The U.S.</p>
+        </footer>
+
+        {/* <!-- Edit Modal Window --> */}
+        <div class="popup popup_type_edit-profile">
+          <div class="popup__content">
+            <button type="button" class="popup__close"></button>
+            <h2 class="popup__header">Edit profile</h2>
+            <form name="profile" class="form popup__form" novalidate>
+              <fieldset class="form__editor">
+                <input
+                  id="name-input"
+                  type="text"
+                  placeholder="Name"
+                  name="name"
+                  minlength="2"
+                  maxlength="40"
+                  class="form__input form__input_content_name"
+                  required
+                />
+                <span class="name-input-error form__input-error"></span>
+                <input
+                  id="job-input"
+                  type="text"
+                  placeholder="About me"
+                  name="about"
+                  minlength="2"
+                  maxlength="200"
+                  class="form__input form__input_content_job"
+                  required
+                />
+                <span class="job-input-error form__input-error"></span>
+              </fieldset>
+              <button type="submit" class="form__button">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* <!-- Add New Card Modal Window --> */}
+        <div class="popup popup_type_add-card">
+          <div class="popup__content">
+            <button type="button" class="popup__close"></button>
+            <h2 class="popup__header">New place</h2>
+            <form name="profile" class="form popup__form" novalidate>
+              <fieldset class="form__editor">
+                <input
+                  id="title-input"
+                  type="text"
+                  placeholder="Title"
+                  name="name"
+                  class="form__input form__input_content_title"
+                  minlength="1"
+                  maxlength="30"
+                  required
+                />
+                <span class="title-input-error form__input-error"></span>
+                <input
+                  id="link-input"
+                  type="url"
+                  placeholder="Image link"
+                  name="link"
+                  class="form__input form__input_content_link"
+                  required
+                />
+                <span class="link-input-error form__input-error"></span>
+              </fieldset>
+              <button type="submit" class="form__button">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+        {/* <!-- Edit Avatar Modal Window --> */}
+        <div class="popup popup_type_edit-avatar">
+          <div class="popup__content">
+            <button type="button" class="popup__close"></button>
+            <h2 class="popup__header">Change profile picture</h2>
+            <form name="profile" class="form popup__form" novalidate>
+              <fieldset class="form__editor">
+                <input
+                  id="link-avatar"
+                  type="url"
+                  placeholder="Image link"
+                  name="link"
+                  class="form__input form__input_content_link"
+                  required
+                />
+                <span class="link-avatar-error form__input-error"></span>
+              </fieldset>
+              <button type="submit" class="form__button">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* <!-- View Card by Popup --> */}
+        <div class="popup popup_type_card">
+          <div class="popup__card">
+            <button type="button" class="popup__close"></button>
+            <img src=" " alt=" " class="popup__image" />
+            <p class="popup__description"></p>
+          </div>
+        </div>
+
+        <div class="popup popup_type_delete-card-form">
+          <div class="popup__content">
+            <button class="popup__close"></button>
+            <form class="form form_delete-card">
+              <h1 class="form__heading">Are you sure?</h1>
+              <button
+                type="submit"
+                class="form__button form__button_delete-card"
+              >
+                Yes
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <template id="card">
+          <div class="card">
+            <img src=" " alt=" " class="card__image" />
+
+            <button type="button" class="card__button-trash"></button>
+            <div class="card__description">
+              <h2 class="card__title"></h2>
+              <div class="card__like-info">
+                <button type="button" class="card__button-like"></button>
+                <span class="card__likes-count"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </body>
     </div>
   );
 }
