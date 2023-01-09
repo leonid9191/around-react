@@ -22,150 +22,134 @@ function App() {
     setSelectedCard({});
   };
 
-  const handleEditAvatarClick = () => {
-    const popupElement = document.querySelector(".popup_type_edit-avatar");
-    popupElement.classNameList.add("popup_opened");
-    setIsEditAvatarPopupOpen(true);
+  const handleEscPopupClose = (e) => {
+    if (e.key === "Escape") {
+      closeAllPopups();
+    }
   };
-
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+    window.addEventListener("keyup", handleEscPopupClose);
+  };
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
+    window.addEventListener("keyup", handleEscPopupClose);
   };
-
   const handleAddPlaceClick = () => {
-    const popupElement = document.querySelector(".popup_type_add-card");
-    popupElement.classNameList.add("popup_opened");
     setIsAddPlacePopupOpen(true);
+    window.addEventListener("keyup", handleEscPopupClose);
+  };
+  const handleDeleteCardClick = () => {
+    setIsDeleteCardPopupOpen(true);
+    window.addEventListener("keyup", handleEscPopupClose);
   };
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
-    // const popupElement = document.querySelector(".popup_type_add-card");
-    // popupElement.classNameList.add("popup_opened");
+    window.addEventListener("keyup", handleEscPopupClose);
   };
 
   return (
-    <div className="App">
-      <body className="page">
-        <Header />
-        <Main
-          onEditAvatarClick={handleEditAvatarClick}
-          onEditProfileClick={handleEditProfileClick}
-          onAddPlaceClick={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-        />
+    <>
+      <Header />
+      <Main
+        onEditAvatarClick={handleEditAvatarClick}
+        onEditProfileClick={handleEditProfileClick}
+        onAddPlaceClick={handleAddPlaceClick}
+        onCardClick={handleCardClick}
+      />
 
-        <ImagePopup 
-          card={selectedCard}
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
-        />
+      <ImagePopup
+        card={selectedCard}
+        isOpen={isImagePopupOpen}
+        onClose={closeAllPopups}
+      />
 
-        <PopupWithForm
-          name="edit-profile"
-          title="Edit profile"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        />
+      <PopupWithForm
+        name="edit-profile"
+        title="Edit profile"
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        children={
+          <fieldset className="form__editor">
+            <input
+              id="name-input"
+              type="text"
+              placeholder="Name"
+              name="name"
+              minLength="2"
+              maxLength="40"
+              className="form__input form__input_content_name"
+              required
+            />
+            <span className="name-input-error form__input-error"></span>
+            <input
+              id="job-input"
+              type="text"
+              placeholder="About me"
+              name="about"
+              minLength="2"
+              maxLength="200"
+              className="form__input form__input_content_job"
+              required
+            />
+            <span className="job-input-error form__input-error"></span>
+          </fieldset>
+        }
+      />
+      <PopupWithForm
+        name="add-card"
+        title="New place"
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        children={
+          <fieldset className="form__editor">
+            <input
+              id="title-input"
+              type="text"
+              placeholder="Title"
+              name="name"
+              className="form__input form__input_content_title"
+              minLength="1"
+              maxLength="30"
+              required
+            />
+            <span className="title-input-error form__input-error"></span>
+            <input
+              id="link-input"
+              type="url"
+              placeholder="Image link"
+              name="link"
+              className="form__input form__input_content_link"
+              required
+            />
+            <span className="link-input-error form__input-error"></span>
+          </fieldset>
+        }
+      />
+      <PopupWithForm
+        name="edit-avatar"
+        title="Change profile picture"
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        children={
+          <fieldset className="form__editor">
+            <input
+              id="link-avatar"
+              type="url"
+              placeholder="Image link"
+              name="link"
+              className="form__input form__input_content_link"
+              required
+            />
+            <span className="link-avatar-error form__input-error"></span>
+          </fieldset>
+        }
+      />
 
-        <Footer />
-        
-        {/* <!-- Edit Modal Window --> */}
-        {/* <div className="popup popup_type_edit-profile">
-          <div className="popup__content">
-            <button type="button" className="popup__close"></button>
-            <h2 className="popup__header">Edit profile</h2>
-            <form name="profile" className="form popup__form" novalidate>
-              <fieldset className="form__editor">
-                <input
-                  id="name-input"
-                  type="text"
-                  placeholder="Name"
-                  name="name"
-                  minlength="2"
-                  maxlength="40"
-                  className="form__input form__input_content_name"
-                  required
-                />
-                <span className="name-input-error form__input-error"></span>
-                <input
-                  id="job-input"
-                  type="text"
-                  placeholder="About me"
-                  name="about"
-                  minlength="2"
-                  maxlength="200"
-                  className="form__input form__input_content_job"
-                  required
-                />
-                <span className="job-input-error form__input-error"></span>
-              </fieldset>
-              <button type="submit" className="form__button">
-                Save
-              </button>
-            </form>
-          </div>
-        </div> */}
+      <Footer />
 
-        {/* <!-- Add New Card Modal Window --> */}
-        {/* <div className="popup popup_type_add-card">
-          <div className="popup__content">
-            <button type="button" className="popup__close"></button>
-            <h2 className="popup__header">New place</h2>
-            <form name="profile" className="form popup__form" novalidate>
-              <fieldset className="form__editor">
-                <input
-                  id="title-input"
-                  type="text"
-                  placeholder="Title"
-                  name="name"
-                  className="form__input form__input_content_title"
-                  minLength="1"
-                  maxLength="30"
-                  required
-                />
-                <span className="title-input-error form__input-error"></span>
-                <input
-                  id="link-input"
-                  type="url"
-                  placeholder="Image link"
-                  name="link"
-                  className="form__input form__input_content_link"
-                  required
-                />
-                <span className="link-input-error form__input-error"></span>
-              </fieldset>
-              <button type="submit" className="form__button">
-                Save
-              </button>
-            </form>
-          </div>
-        </div> */}
-        {/* <!-- Edit Avatar Modal Window --> */}
-        {/* <div className="popup popup_type_edit-avatar">
-          <div className="popup__content">
-            <button type="button" className="popup__close"></button>
-            <h2 className="popup__header">Change profile picture</h2>
-            <form name="profile" className="form popup__form" novalidate>
-              <fieldset className="form__editor">
-                <input
-                  id="link-avatar"
-                  type="url"
-                  placeholder="Image link"
-                  name="link"
-                  className="form__input form__input_content_link"
-                  required
-                />
-                <span className="link-avatar-error form__input-error"></span>
-              </fieldset>
-              <button type="submit" className="form__button">
-                Save
-              </button>
-            </form>
-          </div>
-        </div> */}
-
-        {/* <div className="popup popup_type_delete-card-form">
+      {/* <div className="popup popup_type_delete-card-form">
           <div className="popup__content">
             <button className="popup__close"></button>
             <form className="form form_delete-card">
@@ -179,10 +163,7 @@ function App() {
             </form>
           </div>
         </div> */}
-
-        
-      </body>
-    </div>
+    </>
   );
 }
 

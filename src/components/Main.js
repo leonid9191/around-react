@@ -13,7 +13,7 @@ export function Main(props) {
       setUserAvatar(avatar);
       setUserDescription(about);
       setUserName(name);
-    });
+    },);
 
     api.getInitialCards().then((initialCards) => {
       setCards(initialCards);
@@ -23,7 +23,7 @@ export function Main(props) {
     <main className="main">
       <section className="profile">
         <div className="profile__avatar">
-          <img src={userAvatar} alt="avatar" className="profile__avatar-img" />
+          <img src={userAvatar ? userAvatar :'https://via.placeholder.com/150/00000?text=Avatar'} alt="avatar" className="profile__avatar-img" />
           <button
             onClick={props.onEditAvatarClick}
             className="profile__change-avatar-button"
