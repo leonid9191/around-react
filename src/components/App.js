@@ -3,7 +3,7 @@ import { Main } from "./Main.js";
 import { Footer } from "./Footer.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -22,31 +22,33 @@ function App() {
     setSelectedCard({});
   };
 
-  const handleEscPopupClose = (e) => {
-    if (e.key === "Escape") {
-      closeAllPopups();
-    }
-  };
+  useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", closeByEscape);
+
+    return () => document.removeEventListener("keydown", closeByEscape);
+  }, []);
+
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
-    window.addEventListener("keyup", handleEscPopupClose);
   };
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
-    window.addEventListener("keyup", handleEscPopupClose);
   };
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
-    window.addEventListener("keyup", handleEscPopupClose);
   };
   const handleDeleteCardClick = () => {
     setIsDeleteCardPopupOpen(true);
-    window.addEventListener("keyup", handleEscPopupClose);
   };
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
-    window.addEventListener("keyup", handleEscPopupClose);
   };
 
   return (
@@ -68,84 +70,86 @@ function App() {
       <PopupWithForm
         name="edit-profile"
         title="Edit profile"
+        buttonText="Save"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        children={
-          <fieldset className="form__editor">
-            <input
-              id="name-input"
-              type="text"
-              placeholder="Name"
-              name="name"
-              minLength="2"
-              maxLength="40"
-              className="form__input form__input_content_name"
-              required
-            />
-            <span className="name-input-error form__input-error"></span>
-            <input
-              id="job-input"
-              type="text"
-              placeholder="About me"
-              name="about"
-              minLength="2"
-              maxLength="200"
-              className="form__input form__input_content_job"
-              required
-            />
-            <span className="job-input-error form__input-error"></span>
-          </fieldset>
-        }
-      />
+      >
+        <fieldset className="form__editor">
+          <input
+            id="name-input"
+            type="text"
+            placeholder="Name"
+            name="name"
+            minLength="2"
+            maxLength="40"
+            className="form__input form__input_content_name"
+            required
+          />
+          <span className="name-input-error form__input-error"></span>
+          <input
+            id="job-input"
+            type="text"
+            placeholder="About me"
+            name="about"
+            minLength="2"
+            maxLength="200"
+            className="form__input form__input_content_job"
+            required
+          />
+          <span className="job-input-error form__input-error"></span>
+        </fieldset>
+      </PopupWithForm>
+
       <PopupWithForm
         name="add-card"
         title="New place"
+        buttonText="Save"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        children={
-          <fieldset className="form__editor">
-            <input
-              id="title-input"
-              type="text"
-              placeholder="Title"
-              name="name"
-              className="form__input form__input_content_title"
-              minLength="1"
-              maxLength="30"
-              required
-            />
-            <span className="title-input-error form__input-error"></span>
-            <input
-              id="link-input"
-              type="url"
-              placeholder="Image link"
-              name="link"
-              className="form__input form__input_content_link"
-              required
-            />
-            <span className="link-input-error form__input-error"></span>
-          </fieldset>
-        }
-      />
+      >
+        <fieldset className="form__editor">
+          <input
+            id="title-input"
+            type="text"
+            placeholder="Title"
+            name="name"
+            className="form__input form__input_content_title"
+            minLength="1"
+            maxLength="30"
+            required
+          />
+          <span className="title-input-error form__input-error"></span>
+          <input
+            id="link-input"
+            type="url"
+            placeholder="Image link"
+            name="link"
+            className="form__input form__input_content_link"
+            required
+          />
+          <span className="link-input-error form__input-error"></span>
+        </fieldset>
+      </PopupWithForm>
+
       <PopupWithForm
         name="edit-avatar"
         title="Change profile picture"
+        buttonText="Save"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        children={
-          <fieldset className="form__editor">
-            <input
-              id="link-avatar"
-              type="url"
-              placeholder="Image link"
-              name="link"
-              className="form__input form__input_content_link"
-              required
-            />
-            <span className="link-avatar-error form__input-error"></span>
-          </fieldset>
-        }
-      />
+      >
+        <fieldset className="form__editor">
+          <input
+            id="link-avatar"
+            type="url"
+            placeholder="Image link"
+            name="link"
+            className="form__input form__input_content_link"
+            required
+          />
+          <span className="link-avatar-error form__input-error"></span>
+        </fieldset>
+      </PopupWithForm>
 
       <Footer />
 

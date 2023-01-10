@@ -13,10 +13,16 @@ export function Main(props) {
       setUserAvatar(avatar);
       setUserDescription(about);
       setUserName(name);
-    },);
+    },)
+    .catch((err) => {
+      console.log(err);
+    });
 
     api.getInitialCards().then((initialCards) => {
       setCards(initialCards);
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }, []);
   return (
@@ -27,7 +33,7 @@ export function Main(props) {
           <button
             onClick={props.onEditAvatarClick}
             className="profile__change-avatar-button"
-          ></button>
+          />
         </div>
         <div className="profile__description">
           <div className="profile__wrapper">
@@ -36,7 +42,7 @@ export function Main(props) {
               onClick={props.onEditProfileClick}
               type="button"
               className="profile__button-edit"
-            ></button>
+            />
           </div>
           <p className="profile__subtitle">{userDescription}</p>
         </div>
@@ -44,7 +50,7 @@ export function Main(props) {
           onClick={props.onAddPlaceClick}
           type="button"
           className="profile__button-add"
-        ></button>
+        />
       </section>
       <section className="gallery">
         {cards.map((card) => (
