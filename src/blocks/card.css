@@ -45,6 +45,9 @@
 .card__button-trash:hover {
   opacity: 0.6;
 }
+.card__button-trash_hidden{
+  visibility:hidden;
+}
 
 .card__like-info{
   display: flex;

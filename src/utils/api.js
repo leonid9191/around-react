@@ -50,17 +50,10 @@ export default class Api {
       .then(this._checkResponse);
   }
 
-  likeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    })
-      .then(this._checkResponse);
-  }
-  dislikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
+  changeLikeCardStatus(cardId, like) {
+    return fetch(this._baseUrl + '/cards/likes/' + cardId, {
+        headers: this._headers,
+        method: like ? "PUT" : "DELETE"
     })
       .then(this._checkResponse);
   }

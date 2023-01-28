@@ -3,7 +3,10 @@ import { Main } from "./Main.js";
 import { Footer } from "./Footer.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import { useState, useEffect } from "react";
+
+import { api } from "../utils/api.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -12,6 +15,16 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getUserInfo().then((user) => {
+      setCurrentUser(user)
+    },)
+    .catch((err) => {
+      console.log('app.js ', err);
+    });
+  }, []);
 
   const closeAllPopups = () => {
     setIsAddPlacePopupOpen(false);
@@ -53,6 +66,7 @@ function App() {
 
   return (
     <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Header />
       <Main
         onEditAvatarClick={handleEditAvatarClick}
@@ -152,6 +166,7 @@ function App() {
       </PopupWithForm>
 
       <Footer />
+      </CurrentUserContext.Provider>
 
       {/* <div className="popup popup_type_delete-card-form">
           <div className="popup__content">
