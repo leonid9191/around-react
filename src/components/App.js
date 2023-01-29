@@ -4,6 +4,8 @@ import { Footer } from "./Footer.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { EditProfilePopup } from "./EditProfilePopup.js";
+import { EditAvatarPopup } from "./EditAvatarPopup";
 import { useState, useEffect } from "react";
 
 import { api } from "../utils/api.js";
@@ -18,12 +20,14 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    api.getUserInfo().then((user) => {
-      setCurrentUser(user)
-    },)
-    .catch((err) => {
-      console.log('app.js ', err);
-    });
+    api
+      .getUserInfo()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        console.log("app.js ", err);
+      });
   }, []);
 
   const closeAllPopups = () => {
@@ -56,116 +60,95 @@ function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   };
-  const handleDeleteCardClick = () => {
-    setIsDeleteCardPopupOpen(true);
-  };
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
   };
 
+  const handleUpdateAvatar = (avatar) => {
+    api
+    .editUserAvatar(avatar)
+    .then((newAvatar) => {
+      setCurrentUser({...newAvatar});
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.log("app.js ", err);
+    });
+  }
+  const handleUpdateUser = (name, about) => {
+    api
+      .editUserInfo(name, about)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log("app.js ", err);
+      });
+  };
+
   return (
     <>
-    <CurrentUserContext.Provider value={currentUser}>
-      <Header />
-      <Main
-        onEditAvatarClick={handleEditAvatarClick}
-        onEditProfileClick={handleEditProfileClick}
-        onAddPlaceClick={handleAddPlaceClick}
-        onCardClick={handleCardClick}
-      />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header />
+        <Main
+          onEditAvatarClick={handleEditAvatarClick}
+          onEditProfileClick={handleEditProfileClick}
+          onAddPlaceClick={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+        />
 
-      <ImagePopup
-        card={selectedCard}
-        isOpen={isImagePopupOpen}
-        onClose={closeAllPopups}
-      />
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <PopupWithForm
-        name="edit-profile"
-        title="Edit profile"
-        buttonText="Save"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="form__editor">
-          <input
-            id="name-input"
-            type="text"
-            placeholder="Name"
-            name="name"
-            minLength="2"
-            maxLength="40"
-            className="form__input form__input_content_name"
-            required
-          />
-          <span className="name-input-error form__input-error"></span>
-          <input
-            id="job-input"
-            type="text"
-            placeholder="About me"
-            name="about"
-            minLength="2"
-            maxLength="200"
-            className="form__input form__input_content_job"
-            required
-          />
-          <span className="job-input-error form__input-error"></span>
-        </fieldset>
-      </PopupWithForm>
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-      <PopupWithForm
-        name="add-card"
-        title="New place"
-        buttonText="Save"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="form__editor">
-          <input
-            id="title-input"
-            type="text"
-            placeholder="Title"
-            name="name"
-            className="form__input form__input_content_title"
-            minLength="1"
-            maxLength="30"
-            required
-          />
-          <span className="title-input-error form__input-error"></span>
-          <input
-            id="link-input"
-            type="url"
-            placeholder="Image link"
-            name="link"
-            className="form__input form__input_content_link"
-            required
-          />
-          <span className="link-input-error form__input-error"></span>
-        </fieldset>
-      </PopupWithForm>
+        <PopupWithForm
+          name="add-card"
+          title="New place"
+          buttonText="Save"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <fieldset className="form__editor">
+            <input
+              id="title-input"
+              type="text"
+              placeholder="Title"
+              name="name"
+              className="form__input form__input_content_title"
+              minLength="1"
+              maxLength="30"
+              required
+            />
+            <span className="title-input-error form__input-error"></span>
+            <input
+              id="link-input"
+              type="url"
+              placeholder="Image link"
+              name="link"
+              className="form__input form__input_content_link"
+              required
+            />
+            <span className="link-input-error form__input-error"></span>
+          </fieldset>
+        </PopupWithForm>
 
-      <PopupWithForm
-        name="edit-avatar"
-        title="Change profile picture"
-        buttonText="Save"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="form__editor">
-          <input
-            id="link-avatar"
-            type="url"
-            placeholder="Image link"
-            name="link"
-            className="form__input form__input_content_link"
-            required
-          />
-          <span className="link-avatar-error form__input-error"></span>
-        </fieldset>
-      </PopupWithForm>
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
-      <Footer />
+        <Footer />
       </CurrentUserContext.Provider>
 
       {/* <div className="popup popup_type_delete-card-form">
