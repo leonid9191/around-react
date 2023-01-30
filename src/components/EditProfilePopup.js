@@ -14,7 +14,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateUser({
+    onUpdateUser({ 
       name,
       about: description,
     });
@@ -41,7 +41,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           id="name-input"
           type="text"
           placeholder="Name"
-          value={name}
+          // value={name}
           name="name"
           onChange={handleChangeName}
           minLength="2"
@@ -54,7 +54,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           id="job-input"
           type="text"
           placeholder="About me"
-          value={description}
+          // value={description}
           name="about"
           onChange={handleChangeDescription}
           minLength="2"
