@@ -9,7 +9,7 @@ import { AddPlacePopup } from "./AddPlacePopup.js";
 import { DeletePopup } from "./DeletePopup.js";
 import { useState, useEffect } from "react";
 
-import { api } from "../utils/api.js";
+import api  from "../utils/api.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
