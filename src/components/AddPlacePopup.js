@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PopupWithForm } from "./PopupWithForm";
 
-export function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
+export function AddPlacePopup({
+  isLoading,
+  isOpen,
+  onClose,
+  onAddPlaceSubmit,
+}) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
 
@@ -17,11 +22,15 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
     onAddPlaceSubmit({ name, link });
   };
 
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isOpen]);
   return (
     <PopupWithForm
       name="add-card"
       title="New place"
-      buttonText="Save"
+      buttonText={isLoading ? "Saving..." : "Save"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleAddPlaceSubmit}
@@ -32,6 +41,7 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
           type="text"
           placeholder="Title"
           name="name"
+          value={name || ""}
           onChange={handleChangeName}
           className="form__input form__input_content_title"
           minLength="1"
@@ -44,7 +54,8 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
           type="url"
           placeholder="Image link"
           name="link"
-          onKeyUp={handleChangeLink}
+          value={link || ""}
+          onChange={handleChangeLink}
           className="form__input form__input_content_link"
           required
         />
