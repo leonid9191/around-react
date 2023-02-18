@@ -2,10 +2,13 @@
 
 ## Decription
 
-*Interactive page where users can add and remove photos, like photos of other users, and make a few adjustments to their own profile.*
+Around React is a web application that allows users to share images of their favorite places and view images uploaded by other users. The application utilizes React for the frontend, and is backed by a Node.js server and MongoDB database. Users can register an account, sign in, and start uploading their own images to the platform.
 
 **Built With**
-HTML, CSS, JavaScript, React
+* HTML
+* CSS
+* JavaScript
+* React
 
 **Figma**
 
