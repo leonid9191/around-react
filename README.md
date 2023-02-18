@@ -4,7 +4,11 @@
 
 Around React is a web application that allows users to share images of their favorite places and view images uploaded by other users. The application utilizes React for the frontend, and is backed by a Node.js server and MongoDB database. Users can register an account, sign in, and start uploading their own images to the platform.
 
-**Built With**
+#### GitHub page
+
+https://leonid9191.github.io/around-react
+
+## **Built With**
 * HTML
 * CSS
 * JavaScript
@@ -17,6 +21,4 @@ Around React is a web application that allows users to share images of their fav
 **Images**
 ![Alt text](./src/images/form%20popup.png "popup") 
 
-### GitHub page
 
-https://leonid9191.github.io/around-react
